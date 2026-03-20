@@ -1,0 +1,97 @@
+enum SectionType {
+  HERO
+  ABOUT
+  CTA
+  FEATURE
+}
+
+// ======================
+// CONTACT (Form + CSV)
+// ======================
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @db.VarChar(255)
+  phone     String?
+  message   String
+
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+// ======================
+// PROMOTION AGENT
+// ======================
+model PromotionAgent {
+  id          String   @id @default(uuid())
+  fullName    String
+  email       String
+  phone       String
+  location    String
+  experience  String
+  focus       String   
+  message     String
+
+  businessUnits BusinessUnit[]
+
+  createdAt   DateTime @default(now())
+}
+
+model BusinessUnit {
+  id        String   @id @default(uuid())
+  name      String
+  agentId   String
+
+  agent     PromotionAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+}
+
+// ======================
+// COMPANY (Admin CRUD)
+// ======================
+model Company {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  logo        String
+  website     String
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ======================
+// CMS: PAGE
+// ======================
+model Page {
+  id        String    @id @default(uuid())
+  slug      String    @unique   // home, about
+  title     String
+
+  sections  Section[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// ======================
+// CMS: SECTION
+// ======================
+model Section {
+  id        String   @id @default(uuid())
+  pageId    String
+  type      SectionType
+
+  content   Json
+  image     String?
+
+  order     Int      @default(0)
+  isVisible Boolean  @default(true)
+
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pageId, order])
+}
