@@ -1,10 +1,24 @@
 enum Role {
-    ADMIN
-    USER
+  ADMIN
+  USER
 }
 
 enum UserStatus {
-    ACTIVE
-    BLOCKED
-    DELETED
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+enum AgentStatus {
+  PENDING
+  REVIEWED
+  APPROVED
+  REJECTED
+}
+
+enum SectionType {
+  HERO
+  ABOUT
+  CTA
+  FEATURE
 }

@@ -171,9 +171,70 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ContactScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PromotionAgentScalarFieldEnum = {
+  id: 'id',
+  fullName: 'fullName',
+  email: 'email',
+  phone: 'phone',
+  location: 'location',
+  experience: 'experience',
+  focus: 'focus',
+  message: 'message',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BusinessUnitScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  agentId: 'agentId'
+};
+
+exports.Prisma.CompanyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  logo: 'logo',
+  website: 'website',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PageScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SectionScalarFieldEnum = {
+  id: 'id',
+  pageId: 'pageId',
+  type: 'type',
+  content: 'content',
+  image: 'image',
+  order: 'order',
+  isVisible: 'isVisible',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -184,6 +245,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
@@ -196,11 +263,24 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   DELETED: 'DELETED'
 };
 
+exports.SectionType = exports.$Enums.SectionType = {
+  HERO: 'HERO',
+  ABOUT: 'ABOUT',
+  CTA: 'CTA',
+  FEATURE: 'FEATURE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Contact: 'Contact',
+  PromotionAgent: 'PromotionAgent',
+  BusinessUnit: 'BusinessUnit',
+  Company: 'Company',
+  Page: 'Page',
+  Section: 'Section'
 };
 
 /**
