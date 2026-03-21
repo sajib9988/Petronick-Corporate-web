@@ -5,17 +5,17 @@ export interface IcreateCompany {
   website?: string | null;
   order?: number;
   isVisible?: boolean;
-  revenueStage?: string | null;
+  revenueStage?: string;
 }
 
 export interface IupdateCompany {
   name?: string;
   description?: string;
   logo?: string;
-  website?: string | null;
+  website?: string;
   order?: number;
   isVisible?: boolean;
-  revenueStage?: string | null;
+  revenueStage?: string;
 }
 
 export interface ICompanyQuery {

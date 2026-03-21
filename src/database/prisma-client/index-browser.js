@@ -189,6 +189,7 @@ exports.Prisma.PromotionAgentScalarFieldEnum = {
   experience: 'experience',
   focus: 'focus',
   message: 'message',
+  status: 'status',
   createdAt: 'createdAt'
 };
 
@@ -204,6 +205,9 @@ exports.Prisma.CompanyScalarFieldEnum = {
   description: 'description',
   logo: 'logo',
   website: 'website',
+  order: 'order',
+  isVisible: 'isVisible',
+  revenueStage: 'revenueStage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -219,7 +223,7 @@ exports.Prisma.PageScalarFieldEnum = {
 exports.Prisma.SectionScalarFieldEnum = {
   id: 'id',
   pageId: 'pageId',
-  type: 'type',
+  sectionType: 'sectionType',
   content: 'content',
   image: 'image',
   order: 'order',
@@ -261,6 +265,13 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   ACTIVE: 'ACTIVE',
   BLOCKED: 'BLOCKED',
   DELETED: 'DELETED'
+};
+
+exports.AgentStatus = exports.$Enums.AgentStatus = {
+  PENDING: 'PENDING',
+  REVIEWED: 'REVIEWED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
 };
 
 exports.SectionType = exports.$Enums.SectionType = {

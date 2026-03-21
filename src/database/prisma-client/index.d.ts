@@ -85,6 +85,16 @@ export const UserStatus: {
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
+export const AgentStatus: {
+  PENDING: 'PENDING',
+  REVIEWED: 'REVIEWED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type AgentStatus = (typeof AgentStatus)[keyof typeof AgentStatus]
+
+
 export const SectionType: {
   HERO: 'HERO',
   ABOUT: 'ABOUT',
@@ -103,6 +113,10 @@ export const Role: typeof $Enums.Role
 export type UserStatus = $Enums.UserStatus
 
 export const UserStatus: typeof $Enums.UserStatus
+
+export type AgentStatus = $Enums.AgentStatus
+
+export const AgentStatus: typeof $Enums.AgentStatus
 
 export type SectionType = $Enums.SectionType
 
@@ -7338,6 +7352,7 @@ export namespace Prisma {
     experience: string | null
     focus: string | null
     message: string | null
+    status: $Enums.AgentStatus | null
     createdAt: Date | null
   }
 
@@ -7350,6 +7365,7 @@ export namespace Prisma {
     experience: string | null
     focus: string | null
     message: string | null
+    status: $Enums.AgentStatus | null
     createdAt: Date | null
   }
 
@@ -7362,6 +7378,7 @@ export namespace Prisma {
     experience: number
     focus: number
     message: number
+    status: number
     createdAt: number
     _all: number
   }
@@ -7376,6 +7393,7 @@ export namespace Prisma {
     experience?: true
     focus?: true
     message?: true
+    status?: true
     createdAt?: true
   }
 
@@ -7388,6 +7406,7 @@ export namespace Prisma {
     experience?: true
     focus?: true
     message?: true
+    status?: true
     createdAt?: true
   }
 
@@ -7400,6 +7419,7 @@ export namespace Prisma {
     experience?: true
     focus?: true
     message?: true
+    status?: true
     createdAt?: true
     _all?: true
   }
@@ -7485,6 +7505,7 @@ export namespace Prisma {
     experience: string
     focus: string
     message: string
+    status: $Enums.AgentStatus
     createdAt: Date
     _count: PromotionAgentCountAggregateOutputType | null
     _min: PromotionAgentMinAggregateOutputType | null
@@ -7514,6 +7535,7 @@ export namespace Prisma {
     experience?: boolean
     focus?: boolean
     message?: boolean
+    status?: boolean
     createdAt?: boolean
     businessUnits?: boolean | PromotionAgent$businessUnitsArgs<ExtArgs>
     _count?: boolean | PromotionAgentCountOutputTypeDefaultArgs<ExtArgs>
@@ -7528,6 +7550,7 @@ export namespace Prisma {
     experience?: boolean
     focus?: boolean
     message?: boolean
+    status?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["promotionAgent"]>
 
@@ -7540,6 +7563,7 @@ export namespace Prisma {
     experience?: boolean
     focus?: boolean
     message?: boolean
+    status?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["promotionAgent"]>
 
@@ -7552,10 +7576,11 @@ export namespace Prisma {
     experience?: boolean
     focus?: boolean
     message?: boolean
+    status?: boolean
     createdAt?: boolean
   }
 
-  export type PromotionAgentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "location" | "experience" | "focus" | "message" | "createdAt", ExtArgs["result"]["promotionAgent"]>
+  export type PromotionAgentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "location" | "experience" | "focus" | "message" | "status" | "createdAt", ExtArgs["result"]["promotionAgent"]>
   export type PromotionAgentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     businessUnits?: boolean | PromotionAgent$businessUnitsArgs<ExtArgs>
     _count?: boolean | PromotionAgentCountOutputTypeDefaultArgs<ExtArgs>
@@ -7577,6 +7602,7 @@ export namespace Prisma {
       experience: string
       focus: string
       message: string
+      status: $Enums.AgentStatus
       createdAt: Date
     }, ExtArgs["result"]["promotionAgent"]>
     composites: {}
@@ -8010,6 +8036,7 @@ export namespace Prisma {
     readonly experience: FieldRef<"PromotionAgent", 'String'>
     readonly focus: FieldRef<"PromotionAgent", 'String'>
     readonly message: FieldRef<"PromotionAgent", 'String'>
+    readonly status: FieldRef<"PromotionAgent", 'AgentStatus'>
     readonly createdAt: FieldRef<"PromotionAgent", 'DateTime'>
   }
     
@@ -9489,8 +9516,18 @@ export namespace Prisma {
 
   export type AggregateCompany = {
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
+  }
+
+  export type CompanyAvgAggregateOutputType = {
+    order: number | null
+  }
+
+  export type CompanySumAggregateOutputType = {
+    order: number | null
   }
 
   export type CompanyMinAggregateOutputType = {
@@ -9499,6 +9536,9 @@ export namespace Prisma {
     description: string | null
     logo: string | null
     website: string | null
+    order: number | null
+    isVisible: boolean | null
+    revenueStage: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9509,6 +9549,9 @@ export namespace Prisma {
     description: string | null
     logo: string | null
     website: string | null
+    order: number | null
+    isVisible: boolean | null
+    revenueStage: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9519,11 +9562,22 @@ export namespace Prisma {
     description: number
     logo: number
     website: number
+    order: number
+    isVisible: number
+    revenueStage: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type CompanyAvgAggregateInputType = {
+    order?: true
+  }
+
+  export type CompanySumAggregateInputType = {
+    order?: true
+  }
 
   export type CompanyMinAggregateInputType = {
     id?: true
@@ -9531,6 +9585,9 @@ export namespace Prisma {
     description?: true
     logo?: true
     website?: true
+    order?: true
+    isVisible?: true
+    revenueStage?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9541,6 +9598,9 @@ export namespace Prisma {
     description?: true
     logo?: true
     website?: true
+    order?: true
+    isVisible?: true
+    revenueStage?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9551,6 +9611,9 @@ export namespace Prisma {
     description?: true
     logo?: true
     website?: true
+    order?: true
+    isVisible?: true
+    revenueStage?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -9594,6 +9657,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: CompanyAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CompanySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: CompanyMinAggregateInputType
@@ -9624,6 +9699,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: CompanyCountAggregateInputType | true
+    _avg?: CompanyAvgAggregateInputType
+    _sum?: CompanySumAggregateInputType
     _min?: CompanyMinAggregateInputType
     _max?: CompanyMaxAggregateInputType
   }
@@ -9633,10 +9710,15 @@ export namespace Prisma {
     name: string
     description: string
     logo: string
-    website: string
+    website: string | null
+    order: number
+    isVisible: boolean
+    revenueStage: string | null
     createdAt: Date
     updatedAt: Date
     _count: CompanyCountAggregateOutputType | null
+    _avg: CompanyAvgAggregateOutputType | null
+    _sum: CompanySumAggregateOutputType | null
     _min: CompanyMinAggregateOutputType | null
     _max: CompanyMaxAggregateOutputType | null
   }
@@ -9661,6 +9743,9 @@ export namespace Prisma {
     description?: boolean
     logo?: boolean
     website?: boolean
+    order?: boolean
+    isVisible?: boolean
+    revenueStage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -9671,6 +9756,9 @@ export namespace Prisma {
     description?: boolean
     logo?: boolean
     website?: boolean
+    order?: boolean
+    isVisible?: boolean
+    revenueStage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -9681,6 +9769,9 @@ export namespace Prisma {
     description?: boolean
     logo?: boolean
     website?: boolean
+    order?: boolean
+    isVisible?: boolean
+    revenueStage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["company"]>
@@ -9691,11 +9782,14 @@ export namespace Prisma {
     description?: boolean
     logo?: boolean
     website?: boolean
+    order?: boolean
+    isVisible?: boolean
+    revenueStage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "logo" | "website" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
+  export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "logo" | "website" | "order" | "isVisible" | "revenueStage" | "createdAt" | "updatedAt", ExtArgs["result"]["company"]>
 
   export type $CompanyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Company"
@@ -9705,7 +9799,10 @@ export namespace Prisma {
       name: string
       description: string
       logo: string
-      website: string
+      website: string | null
+      order: number
+      isVisible: boolean
+      revenueStage: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["company"]>
@@ -10136,6 +10233,9 @@ export namespace Prisma {
     readonly description: FieldRef<"Company", 'String'>
     readonly logo: FieldRef<"Company", 'String'>
     readonly website: FieldRef<"Company", 'String'>
+    readonly order: FieldRef<"Company", 'Int'>
+    readonly isVisible: FieldRef<"Company", 'Boolean'>
+    readonly revenueStage: FieldRef<"Company", 'String'>
     readonly createdAt: FieldRef<"Company", 'DateTime'>
     readonly updatedAt: FieldRef<"Company", 'DateTime'>
   }
@@ -11607,7 +11707,7 @@ export namespace Prisma {
   export type SectionMinAggregateOutputType = {
     id: string | null
     pageId: string | null
-    type: $Enums.SectionType | null
+    sectionType: $Enums.SectionType | null
     image: string | null
     order: number | null
     isVisible: boolean | null
@@ -11618,7 +11718,7 @@ export namespace Prisma {
   export type SectionMaxAggregateOutputType = {
     id: string | null
     pageId: string | null
-    type: $Enums.SectionType | null
+    sectionType: $Enums.SectionType | null
     image: string | null
     order: number | null
     isVisible: boolean | null
@@ -11629,7 +11729,7 @@ export namespace Prisma {
   export type SectionCountAggregateOutputType = {
     id: number
     pageId: number
-    type: number
+    sectionType: number
     content: number
     image: number
     order: number
@@ -11651,7 +11751,7 @@ export namespace Prisma {
   export type SectionMinAggregateInputType = {
     id?: true
     pageId?: true
-    type?: true
+    sectionType?: true
     image?: true
     order?: true
     isVisible?: true
@@ -11662,7 +11762,7 @@ export namespace Prisma {
   export type SectionMaxAggregateInputType = {
     id?: true
     pageId?: true
-    type?: true
+    sectionType?: true
     image?: true
     order?: true
     isVisible?: true
@@ -11673,7 +11773,7 @@ export namespace Prisma {
   export type SectionCountAggregateInputType = {
     id?: true
     pageId?: true
-    type?: true
+    sectionType?: true
     content?: true
     image?: true
     order?: true
@@ -11772,7 +11872,7 @@ export namespace Prisma {
   export type SectionGroupByOutputType = {
     id: string
     pageId: string
-    type: $Enums.SectionType
+    sectionType: $Enums.SectionType
     content: JsonValue
     image: string | null
     order: number
@@ -11803,7 +11903,7 @@ export namespace Prisma {
   export type SectionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     pageId?: boolean
-    type?: boolean
+    sectionType?: boolean
     content?: boolean
     image?: boolean
     order?: boolean
@@ -11816,7 +11916,7 @@ export namespace Prisma {
   export type SectionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     pageId?: boolean
-    type?: boolean
+    sectionType?: boolean
     content?: boolean
     image?: boolean
     order?: boolean
@@ -11829,7 +11929,7 @@ export namespace Prisma {
   export type SectionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     pageId?: boolean
-    type?: boolean
+    sectionType?: boolean
     content?: boolean
     image?: boolean
     order?: boolean
@@ -11842,7 +11942,7 @@ export namespace Prisma {
   export type SectionSelectScalar = {
     id?: boolean
     pageId?: boolean
-    type?: boolean
+    sectionType?: boolean
     content?: boolean
     image?: boolean
     order?: boolean
@@ -11851,7 +11951,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type SectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pageId" | "type" | "content" | "image" | "order" | "isVisible" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
+  export type SectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "pageId" | "sectionType" | "content" | "image" | "order" | "isVisible" | "createdAt" | "updatedAt", ExtArgs["result"]["section"]>
   export type SectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     page?: boolean | PageDefaultArgs<ExtArgs>
   }
@@ -11870,7 +11970,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       pageId: string
-      type: $Enums.SectionType
+      sectionType: $Enums.SectionType
       content: Prisma.JsonValue
       image: string | null
       order: number
@@ -12303,7 +12403,7 @@ export namespace Prisma {
   interface SectionFieldRefs {
     readonly id: FieldRef<"Section", 'String'>
     readonly pageId: FieldRef<"Section", 'String'>
-    readonly type: FieldRef<"Section", 'SectionType'>
+    readonly sectionType: FieldRef<"Section", 'SectionType'>
     readonly content: FieldRef<"Section", 'Json'>
     readonly image: FieldRef<"Section", 'String'>
     readonly order: FieldRef<"Section", 'Int'>
@@ -12827,6 +12927,7 @@ export namespace Prisma {
     experience: 'experience',
     focus: 'focus',
     message: 'message',
+    status: 'status',
     createdAt: 'createdAt'
   };
 
@@ -12848,6 +12949,9 @@ export namespace Prisma {
     description: 'description',
     logo: 'logo',
     website: 'website',
+    order: 'order',
+    isVisible: 'isVisible',
+    revenueStage: 'revenueStage',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12869,7 +12973,7 @@ export namespace Prisma {
   export const SectionScalarFieldEnum: {
     id: 'id',
     pageId: 'pageId',
-    type: 'type',
+    sectionType: 'sectionType',
     content: 'content',
     image: 'image',
     order: 'order',
@@ -12990,6 +13094,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AgentStatus'
+   */
+  export type EnumAgentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AgentStatus[]'
+   */
+  export type ListEnumAgentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AgentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'SectionType'
    */
   export type EnumSectionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SectionType'>
@@ -13014,20 +13146,6 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -13432,6 +13550,7 @@ export namespace Prisma {
     experience?: StringFilter<"PromotionAgent"> | string
     focus?: StringFilter<"PromotionAgent"> | string
     message?: StringFilter<"PromotionAgent"> | string
+    status?: EnumAgentStatusFilter<"PromotionAgent"> | $Enums.AgentStatus
     createdAt?: DateTimeFilter<"PromotionAgent"> | Date | string
     businessUnits?: BusinessUnitListRelationFilter
   }
@@ -13445,6 +13564,7 @@ export namespace Prisma {
     experience?: SortOrder
     focus?: SortOrder
     message?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     businessUnits?: BusinessUnitOrderByRelationAggregateInput
   }
@@ -13461,6 +13581,7 @@ export namespace Prisma {
     experience?: StringFilter<"PromotionAgent"> | string
     focus?: StringFilter<"PromotionAgent"> | string
     message?: StringFilter<"PromotionAgent"> | string
+    status?: EnumAgentStatusFilter<"PromotionAgent"> | $Enums.AgentStatus
     createdAt?: DateTimeFilter<"PromotionAgent"> | Date | string
     businessUnits?: BusinessUnitListRelationFilter
   }, "id">
@@ -13474,6 +13595,7 @@ export namespace Prisma {
     experience?: SortOrder
     focus?: SortOrder
     message?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     _count?: PromotionAgentCountOrderByAggregateInput
     _max?: PromotionAgentMaxOrderByAggregateInput
@@ -13492,6 +13614,7 @@ export namespace Prisma {
     experience?: StringWithAggregatesFilter<"PromotionAgent"> | string
     focus?: StringWithAggregatesFilter<"PromotionAgent"> | string
     message?: StringWithAggregatesFilter<"PromotionAgent"> | string
+    status?: EnumAgentStatusWithAggregatesFilter<"PromotionAgent"> | $Enums.AgentStatus
     createdAt?: DateTimeWithAggregatesFilter<"PromotionAgent"> | Date | string
   }
 
@@ -13548,7 +13671,10 @@ export namespace Prisma {
     name?: StringFilter<"Company"> | string
     description?: StringFilter<"Company"> | string
     logo?: StringFilter<"Company"> | string
-    website?: StringFilter<"Company"> | string
+    website?: StringNullableFilter<"Company"> | string | null
+    order?: IntFilter<"Company"> | number
+    isVisible?: BoolFilter<"Company"> | boolean
+    revenueStage?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
   }
@@ -13558,7 +13684,10 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     logo?: SortOrder
-    website?: SortOrder
+    website?: SortOrderInput | SortOrder
+    order?: SortOrder
+    isVisible?: SortOrder
+    revenueStage?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13571,7 +13700,10 @@ export namespace Prisma {
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     description?: StringFilter<"Company"> | string
     logo?: StringFilter<"Company"> | string
-    website?: StringFilter<"Company"> | string
+    website?: StringNullableFilter<"Company"> | string | null
+    order?: IntFilter<"Company"> | number
+    isVisible?: BoolFilter<"Company"> | boolean
+    revenueStage?: StringNullableFilter<"Company"> | string | null
     createdAt?: DateTimeFilter<"Company"> | Date | string
     updatedAt?: DateTimeFilter<"Company"> | Date | string
   }, "id" | "name">
@@ -13581,12 +13713,17 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrder
     logo?: SortOrder
-    website?: SortOrder
+    website?: SortOrderInput | SortOrder
+    order?: SortOrder
+    isVisible?: SortOrder
+    revenueStage?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CompanyCountOrderByAggregateInput
+    _avg?: CompanyAvgOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
     _min?: CompanyMinOrderByAggregateInput
+    _sum?: CompanySumOrderByAggregateInput
   }
 
   export type CompanyScalarWhereWithAggregatesInput = {
@@ -13597,7 +13734,10 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Company"> | string
     description?: StringWithAggregatesFilter<"Company"> | string
     logo?: StringWithAggregatesFilter<"Company"> | string
-    website?: StringWithAggregatesFilter<"Company"> | string
+    website?: StringNullableWithAggregatesFilter<"Company"> | string | null
+    order?: IntWithAggregatesFilter<"Company"> | number
+    isVisible?: BoolWithAggregatesFilter<"Company"> | boolean
+    revenueStage?: StringNullableWithAggregatesFilter<"Company"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Company"> | Date | string
   }
@@ -13663,7 +13803,7 @@ export namespace Prisma {
     NOT?: SectionWhereInput | SectionWhereInput[]
     id?: StringFilter<"Section"> | string
     pageId?: StringFilter<"Section"> | string
-    type?: EnumSectionTypeFilter<"Section"> | $Enums.SectionType
+    sectionType?: EnumSectionTypeFilter<"Section"> | $Enums.SectionType
     content?: JsonFilter<"Section">
     image?: StringNullableFilter<"Section"> | string | null
     order?: IntFilter<"Section"> | number
@@ -13676,7 +13816,7 @@ export namespace Prisma {
   export type SectionOrderByWithRelationInput = {
     id?: SortOrder
     pageId?: SortOrder
-    type?: SortOrder
+    sectionType?: SortOrder
     content?: SortOrder
     image?: SortOrderInput | SortOrder
     order?: SortOrder
@@ -13692,7 +13832,7 @@ export namespace Prisma {
     OR?: SectionWhereInput[]
     NOT?: SectionWhereInput | SectionWhereInput[]
     pageId?: StringFilter<"Section"> | string
-    type?: EnumSectionTypeFilter<"Section"> | $Enums.SectionType
+    sectionType?: EnumSectionTypeFilter<"Section"> | $Enums.SectionType
     content?: JsonFilter<"Section">
     image?: StringNullableFilter<"Section"> | string | null
     order?: IntFilter<"Section"> | number
@@ -13705,7 +13845,7 @@ export namespace Prisma {
   export type SectionOrderByWithAggregationInput = {
     id?: SortOrder
     pageId?: SortOrder
-    type?: SortOrder
+    sectionType?: SortOrder
     content?: SortOrder
     image?: SortOrderInput | SortOrder
     order?: SortOrder
@@ -13725,7 +13865,7 @@ export namespace Prisma {
     NOT?: SectionScalarWhereWithAggregatesInput | SectionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Section"> | string
     pageId?: StringWithAggregatesFilter<"Section"> | string
-    type?: EnumSectionTypeWithAggregatesFilter<"Section"> | $Enums.SectionType
+    sectionType?: EnumSectionTypeWithAggregatesFilter<"Section"> | $Enums.SectionType
     content?: JsonWithAggregatesFilter<"Section">
     image?: StringNullableWithAggregatesFilter<"Section"> | string | null
     order?: IntWithAggregatesFilter<"Section"> | number
@@ -14169,6 +14309,7 @@ export namespace Prisma {
     experience: string
     focus: string
     message: string
+    status?: $Enums.AgentStatus
     createdAt?: Date | string
     businessUnits?: BusinessUnitCreateNestedManyWithoutAgentInput
   }
@@ -14182,6 +14323,7 @@ export namespace Prisma {
     experience: string
     focus: string
     message: string
+    status?: $Enums.AgentStatus
     createdAt?: Date | string
     businessUnits?: BusinessUnitUncheckedCreateNestedManyWithoutAgentInput
   }
@@ -14195,6 +14337,7 @@ export namespace Prisma {
     experience?: StringFieldUpdateOperationsInput | string
     focus?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    status?: EnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     businessUnits?: BusinessUnitUpdateManyWithoutAgentNestedInput
   }
@@ -14208,6 +14351,7 @@ export namespace Prisma {
     experience?: StringFieldUpdateOperationsInput | string
     focus?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    status?: EnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     businessUnits?: BusinessUnitUncheckedUpdateManyWithoutAgentNestedInput
   }
@@ -14221,6 +14365,7 @@ export namespace Prisma {
     experience: string
     focus: string
     message: string
+    status?: $Enums.AgentStatus
     createdAt?: Date | string
   }
 
@@ -14233,6 +14378,7 @@ export namespace Prisma {
     experience?: StringFieldUpdateOperationsInput | string
     focus?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    status?: EnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14245,6 +14391,7 @@ export namespace Prisma {
     experience?: StringFieldUpdateOperationsInput | string
     focus?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    status?: EnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14294,7 +14441,10 @@ export namespace Prisma {
     name: string
     description: string
     logo: string
-    website: string
+    website?: string | null
+    order?: number
+    isVisible?: boolean
+    revenueStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14304,7 +14454,10 @@ export namespace Prisma {
     name: string
     description: string
     logo: string
-    website: string
+    website?: string | null
+    order?: number
+    isVisible?: boolean
+    revenueStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14314,7 +14467,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    website?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    isVisible?: BoolFieldUpdateOperationsInput | boolean
+    revenueStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14324,7 +14480,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    website?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    isVisible?: BoolFieldUpdateOperationsInput | boolean
+    revenueStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14334,7 +14493,10 @@ export namespace Prisma {
     name: string
     description: string
     logo: string
-    website: string
+    website?: string | null
+    order?: number
+    isVisible?: boolean
+    revenueStage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14344,7 +14506,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    website?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    isVisible?: BoolFieldUpdateOperationsInput | boolean
+    revenueStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14354,7 +14519,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     logo?: StringFieldUpdateOperationsInput | string
-    website?: StringFieldUpdateOperationsInput | string
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    order?: IntFieldUpdateOperationsInput | number
+    isVisible?: BoolFieldUpdateOperationsInput | boolean
+    revenueStage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14421,7 +14589,7 @@ export namespace Prisma {
 
   export type SectionCreateInput = {
     id?: string
-    type: $Enums.SectionType
+    sectionType: $Enums.SectionType
     content: JsonNullValueInput | InputJsonValue
     image?: string | null
     order?: number
@@ -14434,7 +14602,7 @@ export namespace Prisma {
   export type SectionUncheckedCreateInput = {
     id?: string
     pageId: string
-    type: $Enums.SectionType
+    sectionType: $Enums.SectionType
     content: JsonNullValueInput | InputJsonValue
     image?: string | null
     order?: number
@@ -14445,7 +14613,7 @@ export namespace Prisma {
 
   export type SectionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
+    sectionType?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
     content?: JsonNullValueInput | InputJsonValue
     image?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
@@ -14458,7 +14626,7 @@ export namespace Prisma {
   export type SectionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     pageId?: StringFieldUpdateOperationsInput | string
-    type?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
+    sectionType?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
     content?: JsonNullValueInput | InputJsonValue
     image?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
@@ -14470,7 +14638,7 @@ export namespace Prisma {
   export type SectionCreateManyInput = {
     id?: string
     pageId: string
-    type: $Enums.SectionType
+    sectionType: $Enums.SectionType
     content: JsonNullValueInput | InputJsonValue
     image?: string | null
     order?: number
@@ -14481,7 +14649,7 @@ export namespace Prisma {
 
   export type SectionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
+    sectionType?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
     content?: JsonNullValueInput | InputJsonValue
     image?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
@@ -14493,7 +14661,7 @@ export namespace Prisma {
   export type SectionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     pageId?: StringFieldUpdateOperationsInput | string
-    type?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
+    sectionType?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
     content?: JsonNullValueInput | InputJsonValue
     image?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
@@ -14875,6 +15043,13 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumAgentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentStatus | EnumAgentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentStatusFilter<$PrismaModel> | $Enums.AgentStatus
+  }
+
   export type BusinessUnitListRelationFilter = {
     every?: BusinessUnitWhereInput
     some?: BusinessUnitWhereInput
@@ -14894,6 +15069,7 @@ export namespace Prisma {
     experience?: SortOrder
     focus?: SortOrder
     message?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -14906,6 +15082,7 @@ export namespace Prisma {
     experience?: SortOrder
     focus?: SortOrder
     message?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -14918,7 +15095,18 @@ export namespace Prisma {
     experience?: SortOrder
     focus?: SortOrder
     message?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type EnumAgentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentStatus | EnumAgentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentStatusWithAggregatesFilter<$PrismaModel> | $Enums.AgentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentStatusFilter<$PrismaModel>
+    _max?: NestedEnumAgentStatusFilter<$PrismaModel>
   }
 
   export type PromotionAgentScalarRelationFilter = {
@@ -14944,14 +15132,32 @@ export namespace Prisma {
     agentId?: SortOrder
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type CompanyCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
     logo?: SortOrder
     website?: SortOrder
+    order?: SortOrder
+    isVisible?: SortOrder
+    revenueStage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type CompanyAvgOrderByAggregateInput = {
+    order?: SortOrder
   }
 
   export type CompanyMaxOrderByAggregateInput = {
@@ -14960,6 +15166,9 @@ export namespace Prisma {
     description?: SortOrder
     logo?: SortOrder
     website?: SortOrder
+    order?: SortOrder
+    isVisible?: SortOrder
+    revenueStage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14970,8 +15179,31 @@ export namespace Prisma {
     description?: SortOrder
     logo?: SortOrder
     website?: SortOrder
+    order?: SortOrder
+    isVisible?: SortOrder
+    revenueStage?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type CompanySumOrderByAggregateInput = {
+    order?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type SectionListRelationFilter = {
@@ -15038,17 +15270,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type PageScalarRelationFilter = {
     is?: PageWhereInput
     isNot?: PageWhereInput
@@ -15057,7 +15278,7 @@ export namespace Prisma {
   export type SectionCountOrderByAggregateInput = {
     id?: SortOrder
     pageId?: SortOrder
-    type?: SortOrder
+    sectionType?: SortOrder
     content?: SortOrder
     image?: SortOrder
     order?: SortOrder
@@ -15073,7 +15294,7 @@ export namespace Prisma {
   export type SectionMaxOrderByAggregateInput = {
     id?: SortOrder
     pageId?: SortOrder
-    type?: SortOrder
+    sectionType?: SortOrder
     image?: SortOrder
     order?: SortOrder
     isVisible?: SortOrder
@@ -15084,7 +15305,7 @@ export namespace Prisma {
   export type SectionMinOrderByAggregateInput = {
     id?: SortOrder
     pageId?: SortOrder
-    type?: SortOrder
+    sectionType?: SortOrder
     image?: SortOrder
     order?: SortOrder
     isVisible?: SortOrder
@@ -15130,22 +15351,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -15302,6 +15507,10 @@ export namespace Prisma {
     connect?: BusinessUnitWhereUniqueInput | BusinessUnitWhereUniqueInput[]
   }
 
+  export type EnumAgentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.AgentStatus
+  }
+
   export type BusinessUnitUpdateManyWithoutAgentNestedInput = {
     create?: XOR<BusinessUnitCreateWithoutAgentInput, BusinessUnitUncheckedCreateWithoutAgentInput> | BusinessUnitCreateWithoutAgentInput[] | BusinessUnitUncheckedCreateWithoutAgentInput[]
     connectOrCreate?: BusinessUnitCreateOrConnectWithoutAgentInput | BusinessUnitCreateOrConnectWithoutAgentInput[]
@@ -15342,6 +15551,14 @@ export namespace Prisma {
     upsert?: PromotionAgentUpsertWithoutBusinessUnitsInput
     connect?: PromotionAgentWhereUniqueInput
     update?: XOR<XOR<PromotionAgentUpdateToOneWithWhereWithoutBusinessUnitsInput, PromotionAgentUpdateWithoutBusinessUnitsInput>, PromotionAgentUncheckedUpdateWithoutBusinessUnitsInput>
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type SectionCreateNestedManyWithoutPageInput = {
@@ -15394,14 +15611,6 @@ export namespace Prisma {
 
   export type EnumSectionTypeFieldUpdateOperationsInput = {
     set?: $Enums.SectionType
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type PageUpdateOneRequiredWithoutSectionsNestedInput = {
@@ -15593,6 +15802,50 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumAgentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentStatus | EnumAgentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentStatusFilter<$PrismaModel> | $Enums.AgentStatus
+  }
+
+  export type NestedEnumAgentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AgentStatus | EnumAgentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AgentStatus[] | ListEnumAgentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumAgentStatusWithAggregatesFilter<$PrismaModel> | $Enums.AgentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAgentStatusFilter<$PrismaModel>
+    _max?: NestedEnumAgentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumSectionTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.SectionType | EnumSectionTypeFieldRefInput<$PrismaModel>
     in?: $Enums.SectionType[] | ListEnumSectionTypeFieldRefInput<$PrismaModel>
@@ -15631,33 +15884,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -16009,6 +16235,7 @@ export namespace Prisma {
     experience: string
     focus: string
     message: string
+    status?: $Enums.AgentStatus
     createdAt?: Date | string
   }
 
@@ -16021,6 +16248,7 @@ export namespace Prisma {
     experience: string
     focus: string
     message: string
+    status?: $Enums.AgentStatus
     createdAt?: Date | string
   }
 
@@ -16049,6 +16277,7 @@ export namespace Prisma {
     experience?: StringFieldUpdateOperationsInput | string
     focus?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    status?: EnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -16061,12 +16290,13 @@ export namespace Prisma {
     experience?: StringFieldUpdateOperationsInput | string
     focus?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    status?: EnumAgentStatusFieldUpdateOperationsInput | $Enums.AgentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SectionCreateWithoutPageInput = {
     id?: string
-    type: $Enums.SectionType
+    sectionType: $Enums.SectionType
     content: JsonNullValueInput | InputJsonValue
     image?: string | null
     order?: number
@@ -16077,7 +16307,7 @@ export namespace Prisma {
 
   export type SectionUncheckedCreateWithoutPageInput = {
     id?: string
-    type: $Enums.SectionType
+    sectionType: $Enums.SectionType
     content: JsonNullValueInput | InputJsonValue
     image?: string | null
     order?: number
@@ -16118,7 +16348,7 @@ export namespace Prisma {
     NOT?: SectionScalarWhereInput | SectionScalarWhereInput[]
     id?: StringFilter<"Section"> | string
     pageId?: StringFilter<"Section"> | string
-    type?: EnumSectionTypeFilter<"Section"> | $Enums.SectionType
+    sectionType?: EnumSectionTypeFilter<"Section"> | $Enums.SectionType
     content?: JsonFilter<"Section">
     image?: StringNullableFilter<"Section"> | string | null
     order?: IntFilter<"Section"> | number
@@ -16297,7 +16527,7 @@ export namespace Prisma {
 
   export type SectionCreateManyPageInput = {
     id?: string
-    type: $Enums.SectionType
+    sectionType: $Enums.SectionType
     content: JsonNullValueInput | InputJsonValue
     image?: string | null
     order?: number
@@ -16308,7 +16538,7 @@ export namespace Prisma {
 
   export type SectionUpdateWithoutPageInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
+    sectionType?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
     content?: JsonNullValueInput | InputJsonValue
     image?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
@@ -16319,7 +16549,7 @@ export namespace Prisma {
 
   export type SectionUncheckedUpdateWithoutPageInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
+    sectionType?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
     content?: JsonNullValueInput | InputJsonValue
     image?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
@@ -16330,7 +16560,7 @@ export namespace Prisma {
 
   export type SectionUncheckedUpdateManyWithoutPageInput = {
     id?: StringFieldUpdateOperationsInput | string
-    type?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
+    sectionType?: EnumSectionTypeFieldUpdateOperationsInput | $Enums.SectionType
     content?: JsonNullValueInput | InputJsonValue
     image?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
