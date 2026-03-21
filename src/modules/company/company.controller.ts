@@ -50,7 +50,8 @@ const getAllCompanies = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getCompanyById = catchAsync(async (req: Request, res: Response) => {
-  const result = await companyService.getCompanyById(req.params.id);
+       const id = req.params.id as string;
+  const result = await companyService.getCompanyById(id);
 
   sendResponse(res, {
     status: httpStatus.OK,
@@ -62,14 +63,14 @@ const getCompanyById = catchAsync(async (req: Request, res: Response) => {
 
 const updateCompany = catchAsync(async (req: Request, res: Response) => {
   const parsed = companyValidation.updateCompany.parse(req.body);
-
+   const id = req.params.id as string;
   let logo: string | undefined;
   if (req.file) {
     const uploaded = await uploadToCloudinary(req.file.buffer, "logos");
     logo = uploaded.secure_url;
   }
 
-  const result = await companyService.updateCompany(req.params.id, {
+  const result = await companyService.updateCompany(id, {
     ...parsed,
     ...(logo && { logo }),
   });
@@ -82,7 +83,8 @@ const updateCompany = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const deleteCompany = catchAsync(async (req: Request, res: Response) => {
-  await companyService.deleteCompany(req.params.id);
+    const id = req.params.id as string;
+  await companyService.deleteCompany(id);
 
   sendResponse(res, {
     status: httpStatus.OK,
