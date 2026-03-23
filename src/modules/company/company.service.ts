@@ -2,32 +2,36 @@ import { prisma } from "../../database/prisma";
 import { AppError } from "../../shared/errors/app-error";
 import { destroyImage } from "../../shared/utils/cloudinary-destroy";
 import { getPagination } from "../../shared/utils/pagination";
-import { ICompanyQuery, IcreateCompany, IupdateCompany,  } from "./company.interface";
+import { ICompanyQuery, IcreateCompany, IupdateCompany } from "./company.interface";
 import httpStatus from "http-status";
 
-const  createCompany= async (payload:IcreateCompany)=>{
-  const existingCompany = await prisma.company.findUnique({
-
+const createCompany = async (payload: IcreateCompany) => {
+  const existing = await prisma.company.findUnique({
     where: { name: payload.name },
   });
 
-  if (existingCompany) {
+  if (existing) {
     throw new AppError(httpStatus.CONFLICT, "Company with this name already exists");
   }
 
-  const company = await prisma.company.create({
-    data: payload,
+  return await prisma.company.create({
+    data: {
+      name: payload.name,
+      description: payload.description,
+      logo: payload.logo,
+      website: payload.website ?? null,
+      order: payload.order ?? 0,
+      isVisible: payload.isVisible ?? true,
+      revenueStage: payload.revenueStage ?? null,
+    },
   });
-
-  return company;
-}
-
+};
 
 const getAllCompanies = async (query: ICompanyQuery) => {
   const { page, limit, skip } = getPagination(query);
   const { search, isVisible } = query;
 
-  const where: Record<string, unknown> = {}; // আগে declare করো
+  const where: Record<string, unknown> = {};
 
   if (search) {
     where.name = { contains: search, mode: "insensitive" };
@@ -58,18 +62,17 @@ const getAllCompanies = async (query: ICompanyQuery) => {
   };
 };
 
-const getCompanyById = async (id:string)=>{
-    const company =await prisma.company.findUnique({
-        where: {id}
-    })
+const getCompanyById = async (id: string) => {
+  const company = await prisma.company.findUnique({
+    where: { id },
+  });
 
-    if (!company){
-        throw new AppError(httpStatus.NOT_FOUND, "Company not found");
-    
-    }
+  if (!company) {
+    throw new AppError(httpStatus.NOT_FOUND, "Company not found");
+  }
 
-    return company;
-}
+  return company;
+};
 
 const updateCompany = async (id: string, payload: IupdateCompany) => {
   const existing = await getCompanyById(id);
@@ -79,7 +82,7 @@ const updateCompany = async (id: string, payload: IupdateCompany) => {
       where: { name: payload.name, NOT: { id } },
     });
     if (nameExists) {
-          throw new AppError(httpStatus.CONFLICT, "Company with this name already exists");
+      throw new AppError(httpStatus.CONFLICT, "Company with this name already exists");
     }
   }
 
@@ -89,7 +92,15 @@ const updateCompany = async (id: string, payload: IupdateCompany) => {
 
   return await prisma.company.update({
     where: { id },
-    data: payload,
+    data: {
+      ...(payload.name && { name: payload.name }),
+      ...(payload.description && { description: payload.description }),
+      ...(payload.logo && { logo: payload.logo }),
+      website: payload.website ?? null,
+      order: payload.order,
+      isVisible: payload.isVisible,
+      revenueStage: payload.revenueStage ?? null,
+    },
   });
 };
 
@@ -104,16 +115,10 @@ const deleteCompany = async (id: string) => {
   return null;
 };
 
-
-
-
-
-
-
 export const companyService = {
   createCompany,
   getAllCompanies,
   getCompanyById,
-    updateCompany,
-    deleteCompany,
-}
+  updateCompany,
+  deleteCompany,
+};

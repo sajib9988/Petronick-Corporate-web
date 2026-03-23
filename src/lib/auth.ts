@@ -1,6 +1,5 @@
 import { betterAuth } from "better-auth";
 import { bearer, emailOTP } from "better-auth/plugins";
-
 import { envVars } from "../config/env";
 import { sendEmail } from "../shared/utils/email";
 import { prisma } from "../database/prisma";
@@ -14,20 +13,23 @@ export const auth = betterAuth({
 
   baseURL: envVars.BETTER_AUTH_URL,
   secret: envVars.BETTER_AUTH_SECRET,
+
   trustedOrigins: [
-    envVars.APP_URL!,
-    envVars.FRONTEND_URL!,
-     envVars.BETTER_AUTH_URL!,
+    envVars.APP_URL,
+    envVars.FRONTEND_URL,
+    envVars.BETTER_AUTH_URL,
     "http://localhost:3000",
   ],
+
   emailAndPassword: {
     enabled: true,
-    requireEmailVerification: true,
+    requireEmailVerification: false,
   },
+
   socialProviders: {
     google: {
-      clientId: envVars.GOOGLE_CLIENT_ID as string,
-      clientSecret: envVars.GOOGLE_CLIENT_SECRET as string,
+      clientId: envVars.GOOGLE_CLIENT_ID,
+      clientSecret: envVars.GOOGLE_CLIENT_SECRET,
       accessType: "offline",
       prompt: "select_account consent",
       mapProfileToUser: () => {
@@ -42,11 +44,13 @@ export const auth = betterAuth({
       },
     },
   },
+
   emailVerification: {
-    sendOnSignUp: true,
-    sendOnSignIn: true,
+    sendOnSignUp: false,
+    sendOnSignIn: false,
     autoSignInAfterVerification: true,
   },
+
   user: {
     additionalFields: {
       role: {
@@ -76,28 +80,21 @@ export const auth = betterAuth({
       },
     },
   },
+
   plugins: [
     bearer(),
     emailOTP({
       overrideDefaultEmailVerification: true,
       async sendVerificationOTP({ email, otp, type }) {
         if (type === "email-verification") {
-                    const user = await prisma.user.findUnique({
-            where: {
-              email,
-            },
-          });
-          
-          
+          const user = await prisma.user.findUnique({ where: { email } });
 
           if (!user) {
-            console.error(
-              `User with email ${email} not found. Cannot send verification OTP.`,
-            );
+            console.error(`User with email ${email} not found`);
             return;
           }
 
-          if (user && !user.emailVerified) {
+          if (!user.emailVerified) {
             sendEmail({
               to: email,
               subject: "Verify your email",
@@ -110,13 +107,7 @@ export const auth = betterAuth({
             });
           }
         } else if (type === "forget-password") {
-                    const user = await prisma.user.findUnique({
-            where: {
-              email,
-            },
-          });
-          
-          
+          const user = await prisma.user.findUnique({ where: { email } });
 
           if (user) {
             sendEmail({
@@ -132,21 +123,24 @@ export const auth = betterAuth({
           }
         }
       },
-      expiresIn: 5 * 60, // 5 minutes in seconds
+      expiresIn: 5 * 60, // 5 minutes
       otpLength: 6,
     }),
   ],
+
   session: {
-    expiresIn: 60 * 60 * 60 * 24, // 1 day in seconds
-    updateAge: 60 * 60 * 60 * 24, // 1 day in seconds
+    expiresIn: 60 * 60 * 24,     // 1 day
+    updateAge: 60 * 60 * 24,     // 1 day
     cookieCache: {
       enabled: true,
-      maxAge: 60 * 60 * 60 * 24, // 1 day in seconds
+      maxAge: 60 * 60 * 24,      // 1 day
     },
   },
+
   redirectURLs: {
     signIn: `${envVars.BETTER_AUTH_URL}/api/v1/auth/google/success`,
   },
+
   advanced: {
     useSecureCookies: false,
     cookies: {

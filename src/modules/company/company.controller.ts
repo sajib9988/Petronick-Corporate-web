@@ -10,19 +10,19 @@ import { companyService } from "./company.service";
 
 
 
-const  createCompany= catchAsync(async(req:Request, res:Response)=>{
-       if(!req.file){
-        throw new AppError(httpStatus.BAD_REQUEST, "Logo image is required");}
+const createCompany = catchAsync(async (req: Request, res: Response) => {
+  if (!req.file) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Logo image is required");
+  }
 
-const uploaded = await uploadToCloudinary(req.file.buffer, "logos")
+  const body = req.body.data ? JSON.parse(req.body.data) : req.body;
+  const uploaded = await uploadToCloudinary(req.file.buffer, "logos");
+  const parsed = companyValidation.createCompany.parse(body);
 
-const parsedData = companyValidation.createCompany.parse(req.body)
-
-const result =await companyService.createCompany({
-    ...parsedData,
+  const result = await companyService.createCompany({
+    ...parsed,
     logo: uploaded.secure_url,
-})
-
+  });
 
   sendResponse(res, {
     status: httpStatus.CREATED,
@@ -30,10 +30,7 @@ const result =await companyService.createCompany({
     message: "Company created successfully",
     data: result,
   });
-
-
-
-       })
+});
 
 const getAllCompanies = catchAsync(async (req: Request, res: Response) => {
   const result = await companyService.getAllCompanies(
@@ -62,14 +59,15 @@ const getCompanyById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const updateCompany = catchAsync(async (req: Request, res: Response) => {
-  const parsed = companyValidation.updateCompany.parse(req.body);
-   const id = req.params.id as string;
+  const body = req.body.data ? JSON.parse(req.body.data) : req.body;
+  const parsed = companyValidation.updateCompany.parse(body);
+
   let logo: string | undefined;
   if (req.file) {
     const uploaded = await uploadToCloudinary(req.file.buffer, "logos");
     logo = uploaded.secure_url;
   }
-
+ const id = req.params.id as string;
   const result = await companyService.updateCompany(id, {
     ...parsed,
     ...(logo && { logo }),
@@ -82,6 +80,10 @@ const updateCompany = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+
+
+
 const deleteCompany = catchAsync(async (req: Request, res: Response) => {
     const id = req.params.id as string;
   await companyService.deleteCompany(id);
