@@ -5,6 +5,7 @@ import { cmsValidation } from "./cms.validation"
 import { IPageQuery } from './cms.interface';
 import { Request, Response } from "express"; 
 import { uploadToCloudinary } from '../../shared/utils/upload';
+import { cmsService } from './cms.service';
 
 
 const createPage = catchAsync(async (req, res)=>{
@@ -32,7 +33,7 @@ const getAllPages = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getPageBySlug = catchAsync(async (req: Request, res: Response) => {
-  const result = await cmsService.getPageBySlug(req.params.slug);
+  const result = await cmsService.getPageBYSlug(req.params.slug as string);
 
   sendResponse(res, {
     status: httpStatus.OK,
@@ -45,7 +46,7 @@ const getPageBySlug = catchAsync(async (req: Request, res: Response) => {
 const updatePage = catchAsync(async (req: Request, res: Response) => {
   const body = req.body.data ? JSON.parse(req.body.data) : req.body;
   const parsed = cmsValidation.updatePage.parse(body);
-  const result = await cmsService.updatePage(req.params.slug, parsed);
+  const result = await cmsService.updatePage(req.params.slug as string, parsed);
 
   sendResponse(res, {
     status: httpStatus.OK,
@@ -56,7 +57,7 @@ const updatePage = catchAsync(async (req: Request, res: Response) => {
 });
 
 const deletePage = catchAsync(async (req: Request, res: Response) => {
-  await cmsService.deletePage(req.params.slug);
+  await cmsService.deletePage(req.params.slug as string);
 
   sendResponse(res, {
     status: httpStatus.OK,
@@ -95,7 +96,7 @@ const createSection = catchAsync(async (req:Request, res:Response)=>{
 })
 
 const getSectionsByPage = catchAsync(async (req: Request, res: Response) => {
-  const result = await cmsService.getSectionsByPage(req.params.pageId);
+  const result = await cmsService.getSectionByPage(req.params.pageId as string);
 
   sendResponse(res, {
     status: httpStatus.OK,
@@ -106,7 +107,7 @@ const getSectionsByPage = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getSectionById = catchAsync(async (req: Request, res: Response) => {
-  const result = await cmsService.getSectionById(req.params.id);
+  const result = await cmsService.getSectionById(req.params.id as string);
 
   sendResponse(res, {
     status: httpStatus.OK,
@@ -128,7 +129,7 @@ const updateSection = catchAsync(async (req: Request, res: Response) => {
     image = uploaded.secure_url;
   }
 
-  const result = await cmsService.updateSection(req.params.id, parsed, image);
+  const result = await cmsService.updateSection(req.params.id as string, parsed, image);
 
   sendResponse(res, {
     status: httpStatus.OK,
@@ -140,7 +141,7 @@ const updateSection = catchAsync(async (req: Request, res: Response) => {
 
 
 const deleteSection = catchAsync(async (req: Request, res: Response) => {
-  await cmsService.deleteSection(req.params.id);
+  await cmsService.deleteSection(req.params.id as string);
 
   sendResponse(res, {
     status: httpStatus.OK,

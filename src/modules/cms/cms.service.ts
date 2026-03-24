@@ -1,5 +1,6 @@
 import { prisma } from "../../database/prisma";
 import { AppError } from "../../shared/errors/app-error";
+import { destroyImage } from "../../shared/utils/cloudinary-destroy";
 import { ICreatepage, ICreateSection, IUpdatePage, IUpdateSection } from "./cms.interface";
 import httpStatus from "http-status";
 
@@ -86,7 +87,7 @@ return await prisma.section.create({
         sectionType:payload.type,
         content:payload.content,
         image: image ?? null,
-        order:payload.Order??0,
+        order:payload.order??0,
         isVisible:payload.isVisible ?? true
 
     }
@@ -143,3 +144,28 @@ const updateSection = async (
     },
   });
 };
+
+
+const deleteSection = async (id:string) => {
+  const existing = await getSectionById(id);
+
+  if (existing.image) {
+    await destroyImage(existing.image);
+  }
+
+  return await prisma.section.delete({ where: { id } });
+};
+
+
+export const cmsService = {
+    createPage,
+    getAllPages,
+    getPageBYSlug,
+    updatePage,
+    deletePage,
+    createSection, 
+    getSectionByPage,
+    getSectionById,
+    updateSection,
+    deleteSection
+}
