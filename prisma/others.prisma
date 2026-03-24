@@ -80,7 +80,7 @@ model Page {
 model Section {
   id          String      @id @default(cuid())
   pageId      String
-  sectionType SectionType @map("type")
+  sectionType SectionType
   content     Json
   image       String?
   order       Int         @default(0)

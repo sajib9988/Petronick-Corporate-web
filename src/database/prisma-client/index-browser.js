@@ -278,7 +278,10 @@ exports.SectionType = exports.$Enums.SectionType = {
   HERO: 'HERO',
   ABOUT: 'ABOUT',
   CTA: 'CTA',
-  FEATURE: 'FEATURE'
+  FEATURE: 'FEATURE',
+  TESTIMONIALS: 'TESTIMONIALS',
+  GALLERY: 'GALLERY',
+  CONTACT: 'CONTACT'
 };
 
 exports.Prisma.ModelName = {
