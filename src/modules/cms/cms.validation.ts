@@ -14,14 +14,14 @@ const createSection = z.object({
   type: z.enum(["HERO", "ABOUT", "CTA", "TESTIMONIALS", "GALLERY", "CONTACT", "FEATURE"], {
     error: "Invalid section type",
   }),
-  content: z.record(z.string(), z.unknown()).default({}),
+  content: z.any().default({}),
   order: z.coerce.number().int().default(0).optional(),
   isVisible: z.coerce.boolean().default(true).optional(),
 });
 
 const updateSection = z.object({
   type: z.enum(["HERO", "ABOUT", "CTA", "TESTIMONIALS", "GALLERY", "CONTACT", "FEATURE"]).optional(),
-  content: z.record(z.string(), z.unknown()).optional(),
+  content: z.any().optional(),
   order: z.coerce.number().int().optional(),
   isVisible: z.coerce.boolean().optional(),
 });

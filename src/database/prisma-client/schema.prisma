@@ -88,6 +88,9 @@ enum SectionType {
   ABOUT
   CTA
   FEATURE
+  TESTIMONIALS
+  GALLERY
+  CONTACT
 }
 
 // ======================

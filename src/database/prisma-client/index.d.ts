@@ -99,7 +99,10 @@ export const SectionType: {
   HERO: 'HERO',
   ABOUT: 'ABOUT',
   CTA: 'CTA',
-  FEATURE: 'FEATURE'
+  FEATURE: 'FEATURE',
+  TESTIMONIALS: 'TESTIMONIALS',
+  GALLERY: 'GALLERY',
+  CONTACT: 'CONTACT'
 };
 
 export type SectionType = (typeof SectionType)[keyof typeof SectionType]
