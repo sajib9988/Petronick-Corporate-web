@@ -177,13 +177,13 @@ model Section {
   sectionType SectionType
   content     Json
   image       String?
-  order       Int         @default(0)
+  sortOrder   Int         @default(0) @map("order")
   isVisible   Boolean     @default(true)
   page        Page        @relation(fields: [pageId], references: [id], onDelete: Cascade)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-  @@index([pageId, order])
+  @@index([pageId, sortOrder])
   @@map("section")
 }
 

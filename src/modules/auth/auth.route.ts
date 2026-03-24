@@ -3,7 +3,8 @@
 import { Router } from "express";
 import { authorize } from "../../shared/middlewares/authorize.middleware";
 import { authController } from "./auth.controller";
-import { Role } from "../../database/prisma-client";
+import { Role } from "../../../generated/prisma-client";
+
 
 const router = Router()
 

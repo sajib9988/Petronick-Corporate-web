@@ -4,7 +4,8 @@ import { envVars } from "../config/env";
 import { sendEmail } from "../shared/utils/email";
 import { prisma } from "../database/prisma";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { Role, UserStatus } from "../database/prisma-client";
+import { Role, UserStatus } from "../../generated/prisma-client";
+
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {

@@ -226,7 +226,7 @@ exports.Prisma.SectionScalarFieldEnum = {
   sectionType: 'sectionType',
   content: 'content',
   image: 'image',
-  order: 'order',
+  sortOrder: 'sortOrder',
   isVisible: 'isVisible',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

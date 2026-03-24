@@ -3,7 +3,7 @@ import status from "http-status";
 import { AppError } from "../errors/app-error";
 import { cookieUtils } from "../utils/cookie";
 import { prisma } from "../../database/prisma";
-import { Role, UserStatus } from "../../database/prisma-client";
+import { Role, UserStatus } from "../../../generated/prisma-client";
 
 export const authorize = (...authRoles: Role[]) =>
   async (req: Request, res: Response, next: NextFunction) => {
